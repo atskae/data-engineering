@@ -1,0 +1,42 @@
+# Docker and Terraform
+
+Following [this workshop](https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/01-docker-terraform) from Data Engineering Zoomcamp.
+
+## Setup
+* Launch a GitHub Codespace from this repository
+    * The codespace already has Docker/Python/etc. installed
+* `PS1="> "` Changes the shell's primary shell prompt in Linux
+
+## Docker
+* Change the entrypoint: `docker run -it --entrypoint=bash python:3.13.11-slim`
+    * Run bash instead of Python
+    * Debian-based image
+* `docker ps -a` shows all the instantiated Docker containers
+    * Every `docker run` will start with a new container instance with new state
+        * Technically we can resume with a container instatiation from this list, but this is not encouraged
+    * `docker ps -aq`: List all the IDs of the containers
+    * `docker rm $(docker ps -aq)`: Removes all containers
+
+### Preserving State
+Use **volumes**, which allows the Docker container to access the host machine's files.
+
+
+## Virtual Environemnts and Data Pipelines
+**Data Pipeline**: An automated system that moves data from a source (ex: raw data) to some destination (ex. database, output file)
+    * Ex. A CSV file (source) is passed into a Data Pipeline, which processes then stores the output to a Parquet file, PostgreSQL Database, and a Data Warehouse (destinations)
+* [NYC Taxi Dataset](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page)
+
+Create a separate Python virtual environment (venv) with `uv`:
+ ```
+ pip install uv
+ ```
+* Create a new venv with Python v3.13: `uv init --python 3.13`
+* Use the Python in the venv `uv run python -V`
+* Check the Python in the venv: `uv run which python`
+    ```
+    > uv run which python
+    /workspaces/data-engineering/docker-terraform/data-pipeline/.venv/bin/python
+    ```
+* Add new Python libraries to the venv: `uv add pandas pyarrow`
+    * Adds `pandas` and `pyarrow` Python libraries
+* Run Python script in venv: `uv run python pipeline.py`
