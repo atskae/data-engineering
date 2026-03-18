@@ -8,7 +8,8 @@ Following [this workshop](https://github.com/DataTalksClub/data-engineering-zoom
     * The codespace already has Docker/Python/etc. installed
 * `PS1="> "` Changes the shell's primary shell prompt in Linux
 
-## Docker
+## Dockerize the Pipeline
+
 * Change the entrypoint: `docker run -it --entrypoint=bash python:3.13.11-slim`
     * Run bash instead of Python
     * Debian-based image
@@ -57,3 +58,28 @@ Docker
     ```Dockerfile
     ENTRYPOINT ["python", "pipeline.py"]
     ```
+
+### Use `uv`
+
+We can copy the `uv` binary from the official `uv` Docker image into our Docker image at `/bin/`:
+```Dockerfile
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/
+```
+We can then remove installing with `pip`.
+
+Install the pipeline dependencies from the lockfile:
+```Dockerfile
+RUN uv sync --locked
+```
+
+Then change the entry point in the Dockerfile to:
+```Dockerfile
+ENTRYPOINT ["uv", "run", "python", "pipeline.py"]
+```
+to use new venv inside the Docker container.
+
+We can also add this to the Dockerfile:
+```Dockerfile
+ENV PATH="/code/.venv/bin:$PATH"
+```
+Then we do not need `["uv", "run"]` in the entrypoint - the container will automatically use Python in the venv.
