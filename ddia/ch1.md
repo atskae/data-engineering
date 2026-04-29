@@ -71,3 +71,19 @@ Cons of using a cloud service:
 | - | - | - |
 Operational / OLTP | MySQL, PostgreSQL, MongoDB | AWS Aurora, Azure SQL, DB Hyperscale, Google Cloud Spanner
 | Analytical/OLAP | Teradata, ClickHouse, Spark | Snowflake, Google BigQuery, Azure Synapse Analytics |
+
+
+## Cloud Computing Versus Supercomputing
+* Supercomputing/HPC - computationally heavy tasks (ex. scientific computing)
+* Cloud computing - online services, need to be available all the time and continually servce users
+
+## Data Systems, Law, and Society
+* Data systems have technical requirements but also need to think about legal/societal/ethical requirements
+    * The needs of the people it is serving
+* **General Data Protection Regulation** (GDPR) - data protection laws regarding how personal data of EU citizens can be stored/used
+    * The right for a user to have their data erased: "right to be forgotten"
+    * How to deal with immutable data? (ex. logs)
+* Not only costs to store/maintain data, but also think about the cost if the data to be leaked, or legal trouble if the systemw was not compliant to the law
+* *Data minimization*: only store data that is required
+    * As opposed to the "big data philosophy": keep as much data *in-case* it is useful later
+* **Service Organization Control (SOC) Type 2** standards
